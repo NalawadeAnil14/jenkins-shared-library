@@ -21,10 +21,6 @@ pipeline {
       steps {
         // Debug: Print the value of FILE_PARAM
         echo "Selected File: ${FILE_PARAM}"
-
-
-        // Move the selected file from the temporary location to the workspace
-        sh 'cp $FILE_PARAM ${WORKSPACE}/'
       }
     }
 
