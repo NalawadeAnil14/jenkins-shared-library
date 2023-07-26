@@ -30,7 +30,7 @@ pipeline {
     stage('check warn') {
       steps {
         script {
-          def occureance = filterLogs('Warning', 1)
+          def occureance = filterLogs('WARNING', 1)
           echo "Given word occured ${occureance} times"
         }
       }
