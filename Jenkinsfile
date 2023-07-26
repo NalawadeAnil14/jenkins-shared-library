@@ -30,7 +30,7 @@ pipeline {
     stage('check warn') {
       steps {
         script {
-          filterLogs('WARNING', 5)
+          filterLogs('Warning', 1)
         }
       }
     }
