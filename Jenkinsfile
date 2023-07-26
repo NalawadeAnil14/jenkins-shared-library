@@ -22,8 +22,6 @@ pipeline {
         // Debug: Print the value of FILE_PARAM
         echo "Selected File: ${FILE_PARAM}"
 
-        // Prompt user to select a file using the FILE_PARAM parameter
-        input message: 'Select a file', parameters: [file(name: 'FILE_PARAM')]
 
         // Move the selected file from the temporary location to the workspace
         sh 'cp $FILE_PARAM ${WORKSPACE}/'
