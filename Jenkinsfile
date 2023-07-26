@@ -13,8 +13,8 @@ pipeline {
     stage('readfile') {
       steps {
         script {
-          sh 'cp $INPUT_FILE ${WORKSPACE}'
-          def filecontent = readFile "${WORKSPACE}/log.txt"
+          sh 'cp ${INPUT_FILE} ${WORKSPACE}'
+          def filecontent = readFile "${WORKSPACE}/${INPUT_FILE}"
           echo $filecontent
         }
       } 
