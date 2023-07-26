@@ -12,9 +12,11 @@ pipeline {
   stages {
     stage('readfile') {
       steps {
-        env.WORKSPACE = pwd()
-        def filecontent = readFile "${env.WORKSPACE}/log.txt"
-        echo $filecontent
+        script {
+          env.WORKSPACE = pwd()
+          def filecontent = readFile "${env.WORKSPACE}/log.txt"
+          echo $filecontent
+        }
       } 
     }
 
