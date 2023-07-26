@@ -1,28 +1,30 @@
-#!/usr/bin/env groovy
-
-@Library('shared-library@master') _
-
 pipeline {
   agent any
-  
-  parameters {
-    file (name: 'INPUT_FILE')
-  }
-  
   stages {
-    stage('readfile') {
+    stage('Unit Test') {
       steps {
-        script {
-          sh 'cp ${INPUT_FILE} ${WORKSPACE}'
-          def filecontent = readFile "${WORKSPACE}/${INPUT_FILE}"
-          echo $filecontent
-        }
-      } 
+        sh 'mvn clean test'
+      }
     }
-
-    stage('checklog'){
+    stage('Deploy Standalone') {
       steps {
-        filterLogs('WARNING', 5)
+        sh 'mvn deploy -P standalone'
+      }
+    }
+    stage('Deploy AnyPoint') {
+      environment {
+        ANYPOINT_CREDENTIALS = credentials('anypoint.credentials')
+      }
+      steps {
+        sh 'mvn deploy -P arm -Darm.target.name=local-4.0.0-ee -Danypoint.username=${ANYPOINT_CREDENTIALS_USR}  -Danypoint.password=${ANYPOINT_CREDENTIALS_PSW}'
+      }
+    }
+    stage('Deploy CloudHub') {
+      environment {
+        ANYPOINT_CREDENTIALS = credentials('anypoint.credentials')
+      }
+      steps {
+        sh 'mvn deploy -P cloudhub -Dmule.version=4.0.0 -Danypoint.username=${ANYPOINT_CREDENTIALS_USR} -Danypoint.password=${ANYPOINT_CREDENTIALS_PSW}'
       }
     }
   }
